@@ -1,5 +1,6 @@
 ﻿using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JinEventsWebAPI.Controllers
@@ -17,6 +18,7 @@ namespace JinEventsWebAPI.Controllers
 		[HttpGet("comments")]
 		public async Task<ActionResult<IEnumerable<Comment>>> Get() => await Task.FromResult(_icomment.GetComments());
 
+		[Authorize]
 		[HttpPost("add-comment")]
 		public async Task<ActionResult<Comment>> Post(Comment comment)
 		{

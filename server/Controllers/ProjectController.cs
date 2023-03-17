@@ -1,5 +1,6 @@
 ﻿using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JinEventsWebAPI.Controllers
@@ -17,6 +18,7 @@ namespace JinEventsWebAPI.Controllers
 		[HttpGet("project")]
 		public async Task<ActionResult<IEnumerable<Project>>> Get() => await Task.FromResult(_iproject.GetProjects());
 
+		[Authorize]
 		[HttpPost("add-project")]
 		public async Task<ActionResult<Project>> Post(Project project)
 		{

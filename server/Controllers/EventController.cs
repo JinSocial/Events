@@ -1,5 +1,6 @@
 ﻿using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JinEventsWebAPI.Controllers
@@ -17,6 +18,7 @@ namespace JinEventsWebAPI.Controllers
 		[HttpGet("events")]
 		public async Task<ActionResult<IEnumerable<Event>>> Get() => await Task.FromResult(_ievent.GetEvents());
 
+		[Authorize]
 		[HttpPost("add-event")]
 		public async Task<ActionResult<Event>> Post(Event @event)
 		{
