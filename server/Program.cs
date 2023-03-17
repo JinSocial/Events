@@ -19,6 +19,19 @@ builder.Services.AddTransient<IProject, ProjectClass>();
 builder.Services.AddTransient<IProjectMember, ProjectMemberClass>();
 builder.Services.AddTransient<IUser, UserClass>();
 
+builder.Services.AddCors(
+	opt =>
+	{
+		opt.AddPolicy("Allow all",
+			policy=>
+			{
+				policy.AllowAnyOrigin()
+				.AllowCredentials()
+				.AllowAnyHeader()
+				.AllowAnyMethod();
+			});
+	});
+
 builder.Services.AddAuthentication
 	(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(opt =>
