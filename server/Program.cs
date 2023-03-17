@@ -19,18 +19,6 @@ builder.Services.AddTransient<IProject, ProjectClass>();
 builder.Services.AddTransient<IProjectMember, ProjectMemberClass>();
 builder.Services.AddTransient<IUser, UserClass>();
 
-builder.Services.AddCors(
-	opt =>
-	{
-		opt.AddPolicy("Allow all",
-			policy=>
-			{
-				policy.AllowAnyOrigin()
-				.AllowAnyHeader()
-				.AllowAnyMethod();
-			});
-	});
-
 builder.Services.AddAuthentication
 	(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(opt =>
@@ -64,6 +52,18 @@ builder.Services.AddSwaggerGen(
 		opt.OperationFilter<SecurityRequirementsOperationFilter>();
 	});
 
+builder.Services.AddCors(
+    opt =>
+    {
+        opt.AddPolicy("Allow all",
+            policy =>
+            {
+                policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            });
+    });
+
 builder.Services.AddMvc();
 
 var app = builder.Build();
@@ -77,6 +77,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors("Allow all");
 
 app.MapControllers();
 
