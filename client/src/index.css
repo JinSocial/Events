@@ -1,0 +1,32 @@
+body {
+	font-size: 14px;
+	font-family: "Arial";
+	background: #eeeeee;
+}
+
+html, body, #root, #main {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+.small-text {
+	font-size: 0.75rem;
+}
+
+.content {
+	flex: 1 1 auto
+}
+
+header {
+	flex: 0 1 40px
+}
+
+.text-purple {
+	color: #4F378B
+}
+
+.error {
+	color: red;
+	font-size: 12px;
+}
