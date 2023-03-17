@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\shelb\\source\\repos\\JinEventsWebAPI\\JinEventsWebAPI.csproj": {}
+    "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\JinEventsWebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\shelb\\source\\repos\\JinEventsWebAPI\\JinEventsWebAPI.csproj": {
+    "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\JinEventsWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shelb\\source\\repos\\JinEventsWebAPI\\JinEventsWebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\JinEventsWebAPI.csproj",
         "projectName": "JinEventsWebAPI",
-        "projectPath": "C:\\Users\\shelb\\source\\repos\\JinEventsWebAPI\\JinEventsWebAPI.csproj",
+        "projectPath": "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\JinEventsWebAPI.csproj",
         "packagesPath": "C:\\Users\\shelb\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shelb\\source\\repos\\JinEventsWebAPI\\obj\\",
+        "outputPath": "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -63,6 +63,10 @@
               "target": "Package",
               "version": "[7.0.4, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[6.27.0, )"
+            },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.3, )"
@@ -70,6 +74,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.27.0, )"
             }
           },
           "imports": [
