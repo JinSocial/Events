@@ -1,5 +1,6 @@
 ﻿using JinEventsWebAPI.Models;
 using JinEventsWebAPI.Models.Dto;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace JinEventsWebAPI.Controllers
 {
-
+	[EnableCors("Allow all")]
 	[Route("api/auth")]
 	[ApiController]
 	public class AuthController : ControllerBase

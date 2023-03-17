@@ -1,10 +1,12 @@
 ﻿using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JinEventsWebAPI.Controllers
 {
+	[EnableCors("Allow all")]
 	[Route("api/")]
 	[ApiController]
 	public class ProjectController : ControllerBase
