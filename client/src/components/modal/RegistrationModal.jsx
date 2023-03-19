@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import ModalStore from "store/ModalStore";
 
 const RegistrationModal = () => {
+    const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const userStore = useContext(Context);
 
@@ -21,9 +22,10 @@ const RegistrationModal = () => {
         userStore.register(form.name, form.email, form.password, (error) => {
             if(error) {
                 setError(true);
+                setSuccess(false);
             } else {
                 setError(false);
-                ModalStore.showRegistration(false)
+                setSuccess(true);
             }
         });
     }
@@ -67,6 +69,7 @@ const RegistrationModal = () => {
                                     {errors.passwordConfirm?.type === 'required' && <div className="error">Поле обязательное</div>}
                                     {errors.passwordConfirm?.type === 'confirm' && <div className="error">Пароли не совпадают</div>}
                                 </div>
+                                {success && <div className="success">Регистрация прошла успешно</div>}
                                 <div className="d-flex flex-column justify-content-center mt-3">
                                     <button type="submit" className="btn border border-2 border-primary text-primary mx-auto">Зарегистрироваться</button>
                                     <a className="btn btn-link p-0 small-text my-1" onClick={() => ModalStore.showLogin(true)}>Уже есть аккаунт?</a>

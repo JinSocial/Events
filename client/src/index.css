@@ -30,3 +30,12 @@ header {
 	color: red;
 	font-size: 12px;
 }
+
+.success {
+	color: green;
+	font-size: 12px;
+}
+
+.header {
+	height: 55px;
+}

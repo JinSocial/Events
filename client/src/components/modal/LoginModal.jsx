@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import ModalStore from "store/ModalStore";
 
 const LoginModal = () => {
+    const [error, setError] = useState(false);
     const userStore = useContext(Context);
 
     const {
@@ -16,7 +17,14 @@ const LoginModal = () => {
     });
 
     const submit = (form) => {
-        userStore.login(form.email, form.password, () => {ModalStore.showLogin(false)});
+        userStore.login(form.username, form.password, (error) => {
+            if(error) {
+                setError(true);
+            } else {
+                setError(false);
+                ModalStore.showLogin(false);
+            }
+        });
     }
 
     if (!ModalStore.isShowLogin) {
@@ -36,16 +44,16 @@ const LoginModal = () => {
                         <div className="modal-body">
                             <form onSubmit={handleSubmit(submit)} className="needs-validation">
                                 <div>
-                                    <label className="col-form-label">Email</label>
-                                    <input className="form-control" name="email" type="text" {...register('email', { required: true, pattern: /^\S+@\S+\.\S+$/ })} />
+                                    <label className="col-form-label">Имя</label>
+                                    <input className="form-control" name="username" type="text" {...register('username', { required: true })} />
                                     {errors.email?.type === 'required' && <div className="error">Поле обязательное</div>}
-                                    {errors.email?.type === 'pattern' && <div className="error">Некорректный email</div>}
                                 </div>
                                 <div>
                                     <label className="col-form-label">Пароль</label>
                                     <input className="form-control" name="password" type="password" {...register('password', { required: true })} />
                                     {errors.password?.type === 'required' && <div className="error">Поле обязательное</div>}
                                 </div>
+                                {error && <div className="error">Неверный логин или пароль</div>}
                                 <div className="d-flex flex-column justify-content-center mt-3">
                                     <button type="submit" className="btn border border-2 border-primary text-primary mx-auto">Войти</button>
                                     <a className="btn btn-link p-0 small-text my-1" onClick={() => ModalStore.showRegistration(true)}>Не зарегистрированы?</a>

@@ -1,8 +1,6 @@
 import Header from "components/Header";
 import Maps from "components/Maps";
-import LoginModal from "components/modal/LoginModal";
-import ProfileModal from "components/modal/ProfileModal";
-import RegistrationModal from "components/modal/RegistrationModal";
+import { observer } from "mobx-react-lite";
 
 const Main = () => {
     return (
@@ -11,11 +9,8 @@ const Main = () => {
             <div className="content">
                 <Maps />
             </div>
-            <LoginModal />
-            <RegistrationModal />
-            <ProfileModal />
         </div>
     );
 }
 
-export default Main;
+export default observer(Main);

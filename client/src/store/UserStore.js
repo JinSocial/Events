@@ -20,28 +20,23 @@ class UserStore {
         this.user = user;
     }
 
-    async login(email, password, callback) {
+    async login(username, password, callback) {
         try {
-            const response = await AuthService.login(email, password);
-            if (response.data.accessToken) {
-                localStorage.setItem('token', response.data.accessToken);
+            const response = await AuthService.login(username, password);
+            if (response.data) {
+                localStorage.setItem('token', response.data);
                 this.setAuth(true);
-                this.setUser(response.data.user);
+                this.setUser({username: username});
             }
-            callback(response);
+            callback(null);
         } catch (e) {
-            console.error(e.message);
+            callback(e);
         }
     }
 
     async register(username, email, password, callback) {
         try {
-            const response = await AuthService.register(username, email, password);
-            if (response.data.accessToken) {
-                localStorage.setItem('token', response.data.accessToken);
-                this.setAuth(true);
-                this.setUser(response.data.user);
-            }
+            await AuthService.register(username, email, password);
             callback(null);
         } catch (e) {
             callback(e);
@@ -60,16 +55,13 @@ class UserStore {
     }
 
     async checkAuth() {
-        this.setLoading = true;
         try {
-            const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true });
-            localStorage.setItem('token', response.data.accessToken);
+            //const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true });
+            //localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
-            this.setUser(response.data.user);
+            this.setUser({username: "Test"});
         } catch (e) {
             console.error(e.message);
-        } finally {
-            this.setLoading = false;
         }
     }
 }
