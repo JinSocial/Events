@@ -1,5 +1,4 @@
 import { Map } from "@pbe/react-yandex-maps";
-import { observer } from "mobx-react-lite";
 
 const Maps = () => {
     return (

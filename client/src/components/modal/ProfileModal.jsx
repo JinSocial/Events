@@ -1,7 +1,5 @@
 import Avatar from "components/Avatar";
-import { Context } from "index";
 import { observer } from "mobx-react-lite";
-import { useContext, useState } from "react";
 import ModalStore from "store/ModalStore";
 import historyImg from 'images/history.png';
 import goalsImg from 'images/goals.png';
@@ -11,8 +9,6 @@ import fearsImg from 'images/fears.png';
 import TextBlock from "components/TextBlock";
 
 const ProfileModal = () => {
-    const userStore = useContext(Context);
-
     if (!ModalStore.isShowProfile) {
         return <></>
     }

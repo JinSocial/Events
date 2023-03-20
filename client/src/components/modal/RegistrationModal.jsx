@@ -1,6 +1,6 @@
 import { Context } from "index";
 import { observer } from "mobx-react-lite";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import ModalStore from "store/ModalStore";
 
@@ -72,7 +72,7 @@ const RegistrationModal = () => {
                                 {success && <div className="success">Регистрация прошла успешно</div>}
                                 <div className="d-flex flex-column justify-content-center mt-3">
                                     <button type="submit" className="btn border border-2 border-primary text-primary mx-auto">Зарегистрироваться</button>
-                                    <a className="btn btn-link p-0 small-text my-1" onClick={() => ModalStore.showLogin(true)}>Уже есть аккаунт?</a>
+                                    <button className="btn btn-link p-0 small-text my-1 mx-auto" onClick={() => ModalStore.showLogin(true)}>Уже есть аккаунт?</button>
                                 </div>
                             </form>
                         </div>

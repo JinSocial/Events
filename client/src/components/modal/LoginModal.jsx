@@ -56,7 +56,7 @@ const LoginModal = () => {
                                 {error && <div className="error">Неверный логин или пароль</div>}
                                 <div className="d-flex flex-column justify-content-center mt-3">
                                     <button type="submit" className="btn border border-2 border-primary text-primary mx-auto">Войти</button>
-                                    <a className="btn btn-link p-0 small-text my-1" onClick={() => ModalStore.showRegistration(true)}>Не зарегистрированы?</a>
+                                    <button className="btn btn-link p-0 small-text my-1 mx-auto" onClick={() => ModalStore.showRegistration(true)}>Не зарегистрированы?</button>
                                 </div>
                             </form>
                         </div>

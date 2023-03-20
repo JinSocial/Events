@@ -1,0 +1,15 @@
+.page-my {
+    border: none !important;
+    border-radius: 50px;
+    background: none !important;
+}
+
+.page-my-active {
+    border: none !important;
+    border-radius: 50px;
+    background: #0d6efd !important;
+    border-top-left-radius: 50px !important;
+    border-bottom-left-radius: 50px !important;
+    border-top-right-radius: 50px !important;
+    border-bottom-right-radius: 50px !important;
+}

@@ -18,12 +18,16 @@ html, body, #root, #main {
 	flex: 1 1 auto
 }
 
-header {
-	flex: 0 1 40px
+.header {
+	height: 55px;
 }
 
 .text-purple {
 	color: #4F378B
+}
+
+.text-white {
+	color: white;
 }
 
 .error {
@@ -34,8 +38,4 @@ header {
 .success {
 	color: green;
 	font-size: 12px;
-}
-
-.header {
-	height: 55px;
 }
