@@ -4,6 +4,7 @@ class ModalStore {
     isShowLogin = false;
     isShowRegistration = false;
     isShowProfile = false;
+    isCreateProjectOffcanvas = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -21,6 +22,10 @@ class ModalStore {
 
     showProfile(show) {
         this.isShowProfile = show;
+    }
+
+    showCreateProjectOffcanvas(show) {
+        this.isCreateProjectOffcanvas = show;
     }
 }
 

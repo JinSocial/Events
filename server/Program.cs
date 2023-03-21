@@ -58,9 +58,11 @@ builder.Services.AddCors(
         opt.AddPolicy("Allow all",
             policy =>
             {
-                policy.AllowAnyOrigin()
+                policy
+				.SetIsOriginAllowed((string origin) => true)
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+				.AllowCredentials();
             });
     });
 
@@ -74,11 +76,11 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
+app.UseCors("Allow all");
+
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseCors("Allow all");
 
 app.MapControllers();
 

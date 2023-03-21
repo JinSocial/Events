@@ -22,7 +22,7 @@ const Header = () => {
                     <a className="nav-link" href="/" onClick={() => navigate("/")}>Карта</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="/news" onClick={() => navigate("/news")}>Новости</a>
+                    <a className="nav-link" href="/event" onClick={() => navigate("/event")}>События</a>
                 </li>
                 <li  className="nav-item ms-3">
                     {userStore.isAuth ?

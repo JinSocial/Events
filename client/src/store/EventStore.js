@@ -1,23 +1,23 @@
 const { makeAutoObservable } = require("mobx");
 
-class NewsStore {
+class EventStore {
     page = -1;
     pageCount = 1;
-    newsList = [];
-    news = {};
+    eventList = [];
+    event = {};
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    async fetchNewsList(page) {
+    async fetchEventList(page) {
         if (this.page === page) { 
             return;
         }
         this.page = page;
         this.pageCount = 21;
         if (this.page <= 20) {
-            this.newsList = [
+            this.eventList = [
                 { id: 0 + (this.page-1) * 6, title: "Очень крутая новость", image: "https://w-dog.ru/wallpapers/11/2/436430609124457/gory-ozero-zvezdy.jpg", text: "Срочная и очень важная новость. Повторяю. Срочная и очень важная новость. Повторяю. Срочная и очень важная новость." },
                 { id: 1 + (this.page-1) * 6, title: "Очень крутая новость", image: "https://w-dog.ru/wallpapers/11/2/436430609124457/gory-ozero-zvezdy.jpg", text: "Срочная и очень важная новость. Повторяю. Срочная и очень важная новость. Повторяю. Срочная и очень важная новость." },
                 { id: 2 + (this.page-1) * 6, title: "Очень крутая новость", image: "https://w-dog.ru/wallpapers/11/2/436430609124457/gory-ozero-zvezdy.jpg", text: "Срочная и очень важная новость. Повторяю. Срочная и очень важная новость. Повторяю. Срочная и очень важная новость." },
@@ -26,16 +26,16 @@ class NewsStore {
                 { id: 5 + (this.page-1) * 6, title: "Очень крутая новость", image: "https://w-dog.ru/wallpapers/11/2/436430609124457/gory-ozero-zvezdy.jpg", text: "Срочная и очень важная новость. Повторяю. Срочная и очень важная новость. Повторяю. Срочная и очень важная новость." }
             ];
         } else {
-            this.newsList = [
+            this.eventList = [
                 { id: 120, title: "Очень крутая новость", image: "https://w-dog.ru/wallpapers/11/2/436430609124457/gory-ozero-zvezdy.jpg", text: "Срочная и очень важная новость. Повторяю. Срочная и очень важная новость. Повторяю. Срочная и очень важная новость." },
                 { id: 121, title: "Очень крутая новость", image: "https://w-dog.ru/wallpapers/11/2/436430609124457/gory-ozero-zvezdy.jpg", text: "Срочная и очень важная новость. Повторяю. Срочная и очень важная новость. Повторяю. Срочная и очень важная новость." }
             ];
         }
-        this.newsList = this.newsList.map(n => {n.title = n.title + " " + n.id; n.date = Date.now() - n.id * 10000000; return n});
+        this.eventList = this.eventList.map(n => {n.title = n.title + " " + n.id; n.date = Date.now() - n.id * 10000000; return n});
     }
 
-    async fetchNews(id) {
-        this.news = {
+    async fetchEvent(id) {
+        this.event = {
             id: id,
             title: "Очень крутая новость",
             image: "https://w-dog.ru/wallpapers/11/2/436430609124457/gory-ozero-zvezdy.jpg",
@@ -45,4 +45,4 @@ class NewsStore {
     }
 }
 
-export default new NewsStore();
+export default new EventStore();

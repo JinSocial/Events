@@ -1,20 +1,20 @@
 import Header from "components/Header";
-import NewsCard from "components/NewsCard";
+import EventCard from "components/EventCard";
 import Paginator from "components/Paginator";
 import { observer } from "mobx-react-lite";
 import NotFound from "pages/NotFound";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import NewsStore from "store/NewsStore";
+import EventStore from "store/EventStore";
 
-const NewsList = ({ page }) => {
+const EventList = ({ page }) => {
     let { id } = useParams();
     if (page === undefined) {
         page = parseInt(id);
     }
 
     useEffect(() => {
-        var fetch = async () => NewsStore.fetchNewsList(page);
+        var fetch = async () => EventStore.fetchEventList(page);
         fetch();
     }, [page]);
 
@@ -22,7 +22,7 @@ const NewsList = ({ page }) => {
         return <NotFound />
     }
 
-    if (!NewsStore.newsList) {
+    if (!EventStore.eventList) {
         return <></>
     }
 
@@ -31,12 +31,12 @@ const NewsList = ({ page }) => {
             <Header />
             <div className="w-75 mx-auto my-4">
                 <div className="row row-cols-auto justify-content-center">
-                    {NewsStore.newsList.map(news => <NewsCard news={news} key={news.id} />)}
+                    {EventStore.eventList.map(event => <EventCard event={event} key={event.id} />)}
                 </div>
-                <Paginator pageCount={NewsStore.pageCount} currnetPage={page} prefix="/news" />
+                <Paginator pageCount={EventStore.pageCount} currnetPage={page} prefix="/event" />
             </div>
         </div>
     );
 }
 
-export default observer(NewsList);
+export default observer(EventList);

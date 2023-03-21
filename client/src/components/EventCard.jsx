@@ -1,20 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { timeformatter } from "utils/utils";
 
-const NewsCard = ({ news }) => {
+const EventCard = ({ event }) => {
     const navigate = useNavigate();
 
     return (
         <div className="card m-2 p-0" style={{ width: '30rem' }}>
-            <a href={`/news/${news.id}`} onClick={() => navigate(`/news/${news.id}`)} className="text-white">
-                <img className="card-img" src={news.image} alt={news.title} />
+            <a href={`/event/${event.id}`} onClick={() => navigate(`/event/${event.id}`)} className="text-white">
+                <img className="card-img" src={event.image} alt={event.title} />
                 <div className="card-img-overlay d-flex flex-column">
                     <div className="card-title">
-                        <strong>{news.title}</strong>
-                        <span className="fs-6"> • {timeformatter.format(news.date)}</span>
+                        <strong>{event.title}</strong>
+                        <span className="fs-6"> • {timeformatter.format(event.date)}</span>
                     </div>
                     <div className="card-text mt-auto">
-                        {news.text}
+                        {event.text}
                     </div>
                 </div>
             </a>
@@ -22,4 +22,4 @@ const NewsCard = ({ news }) => {
     );
 }
 
-export default NewsCard;
+export default EventCard;

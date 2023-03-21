@@ -54,8 +54,6 @@ class UserStore {
 
     async checkAuth() {
         try {
-            //const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true });
-            //localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
             this.setUser({username: "Test"});
         } catch (e) {
