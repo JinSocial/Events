@@ -7,8 +7,12 @@ import needsImg from 'images/needs.png';
 import wishesImg from 'images/wishes.png';
 import fearsImg from 'images/fears.png';
 import TextBlock from "components/TextBlock";
+import { Context } from "index";
+import { useContext } from "react";
 
 const ProfileModal = () => {
+    const userStore = useContext(Context);
+
     if (!ModalStore.isShowProfile) {
         return <></>
     }
@@ -59,6 +63,11 @@ const ProfileModal = () => {
                                     <TextBlock img={needsImg} title={"Потребности"} text={needsText} />
                                     <TextBlock img={wishesImg} title={"Желания"} text={wishesText} />
                                     <TextBlock img={fearsImg} title={"Страхи"} text={fearsText} />
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col d-flex justify-content-center">
+                                    <button className="btn text-danger mx-auto" onClick={() => {userStore.logout(); ModalStore.showProfile(false);}}>Выйти</button>
                                 </div>
                             </div>
                         </div>

@@ -42,14 +42,9 @@ class UserStore {
     }
 
     async logout() {
-        try {
-            await AuthService.logout();
-            localStorage.removeItem('token');
-            this.setAuth(false);
-            this.setUser({});
-        } catch (e) {
-            console.error(e.message);
-        }
+        localStorage.removeItem('token');
+        this.isAuth = false;
+        this.user = {};
     }
 
     async checkAuth() {
