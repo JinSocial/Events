@@ -20,5 +20,8 @@ namespace JinEventsWebAPI.Controllers
 		[Authorize]
 		[HttpGet("users")]
 		public async Task<ActionResult<IEnumerable<User>>> Get() => await Task.FromResult(_iuser.GetUsers());
+
+		[HttpGet("users/{id}")]
+		public async Task<ActionResult<User>> Get(int id) => await Task.FromResult(_iuser.GetById(id));
 	}
 }

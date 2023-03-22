@@ -1,5 +1,6 @@
 ﻿using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace JinEventsWebAPI.Classes
 {
@@ -29,6 +30,19 @@ namespace JinEventsWebAPI.Classes
 			catch (Exception)
 			{
 				return false;
+				throw;
+			}
+		}
+
+		public Project GetProjectById(int id)
+		{
+			try
+			{
+				var project = _context.Projects.Where(p => p.Id == id).FirstOrDefault();
+				return project;
+			}
+			catch (Exception)
+			{
 				throw;
 			}
 		}

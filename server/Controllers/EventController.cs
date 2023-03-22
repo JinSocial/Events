@@ -20,6 +20,9 @@ namespace JinEventsWebAPI.Controllers
 		[HttpGet("events")]
 		public async Task<ActionResult<IEnumerable<Event>>> Get() => await Task.FromResult(_ievent.GetEvents());
 
+		[HttpGet("events/{id}")]
+		public async Task<ActionResult<Event>> Get(int id) => await Task.FromResult(_ievent.GetEvent(id));
+
 		[Authorize]
 		[HttpPost("add-event")]
 		public async Task<ActionResult<Event>> Post(Event @event)
@@ -31,5 +34,6 @@ namespace JinEventsWebAPI.Controllers
 			}
 			return Ok(@event);
 		}
+
 	}
 }

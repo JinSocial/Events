@@ -17,8 +17,11 @@ namespace JinEventsWebAPI.Controllers
 			_iproject = iproject;
 		}
 
-		[HttpGet("project")]
+		[HttpGet("projects")]
 		public async Task<ActionResult<IEnumerable<Project>>> Get() => await Task.FromResult(_iproject.GetProjects());
+
+		[HttpGet("projects/{id}")]
+		public async Task<ActionResult<Project>> Get(int id) => await Task.FromResult(_iproject.GetProjectById(id));
 
 		[Authorize]
 		[HttpPost("add-project")]

@@ -33,6 +33,12 @@ namespace JinEventsWebAPI.Classes
 			}
 		}
 
+		public Event GetEvent(int id)
+		{
+			var @event = _context.Events.Where( eve => eve.Id == id).FirstOrDefault();
+			return @event;
+		}
+
 		public List<Event> GetEvents()
 		{
 			try
