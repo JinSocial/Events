@@ -1,10 +1,8 @@
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
-import DateTimePicker from "react-datetime-picker";
-import { useForm } from "react-hook-form";
 import ModalStore from "store/ModalStore";
 import ProjectStore from "store/ProjectStore";
 import projectImg from 'images/project.png';
+import { placemarkTypesSingle } from "utils/utils";
 
 const ProjectOffcanvas = () => {
     if (!ModalStore.isProjectOffcanvas) {
@@ -18,12 +16,15 @@ const ProjectOffcanvas = () => {
                 <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Закрыть" onClick={() => ModalStore.showProjectOffcanvas(false)}></button>
             </div>
             <div className="offcanvas-body">
-                <img src={projectImg} className="w-100"/>
+                <img src={projectImg} className="w-100" />
                 <div>
                     <label className="col-form-label">Описание</label>
                     <p>
                         {ProjectStore.project.description}
                     </p>
+                </div>
+                <div>
+                    <label className="col-form-label">Тип проекта: {placemarkTypesSingle[ProjectStore.project.type-1]}</label>
                 </div>
                 <div className="col-form-label">Дата начала: {new Date(ProjectStore.project.creationDate.toString()).toLocaleDateString("ru-RU")}</div>
                 <div className="col-form-label">Дата завершения: {new Date().toLocaleDateString("ru-RU")}</div>

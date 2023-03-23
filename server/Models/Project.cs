@@ -12,11 +12,14 @@ public partial class Project
 
     public string? Description { get; set; }
 
-    public NpgsqlPoint Point { get; set; }
+   public NpgsqlPoint Point { get; set; }
+
+    public int Type { get; set; }
 
     public string? ImgPath { get; set; }
 
     public DateTime CreationDate { get; set; }
+    public DateTime EndDate { get; set; }
 
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
 

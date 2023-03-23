@@ -1,7 +1,6 @@
-import { useYMaps } from "@pbe/react-yandex-maps";
 import ProjectService from "services/ProjectService";
-import MapStore from "store/MapStore";
 import ModalStore from "store/ModalStore";
+import { placemarkTypes } from "utils/utils";
 
 const { makeAutoObservable } = require("mobx");
 
@@ -10,8 +9,8 @@ class ProjectStore {
         title: "",
         point: null,
     };
-
     projects = [];
+    projectsVisibleOptions = placemarkTypes.map(() => true);
 
     constructor() {
         makeAutoObservable(this);
@@ -39,9 +38,9 @@ class ProjectStore {
         ModalStore.showProjectOffcanvas(true);
     }
 
-    async create(title, description, date, callback) {
+    async create(title, description, endDate, type, callback) {
         try {
-            await ProjectService.create(title, description, date, this.project.point);
+            await ProjectService.create(title, description, endDate, this.project.point, type);
             this.fetchProjects();
             callback(null);
         } catch (e) {
@@ -54,7 +53,6 @@ class ProjectStore {
         try {
             const response = await ProjectService.getAll();
             this.setProjects(response.data);
-            console.log(response);
         } catch (e) {
             console.error(e.message);
         }
@@ -62,6 +60,10 @@ class ProjectStore {
 
     setProjects(projects) {
         this.projects = projects;
+    }
+
+    setVisible(visible, type) {
+        this.projectsVisibleOptions[type-1] = visible;
     }
 }
 

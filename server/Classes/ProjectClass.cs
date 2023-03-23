@@ -20,6 +20,8 @@ namespace JinEventsWebAPI.Classes
 					Point = project.Point,
 					ImgPath	= project.ImgPath,
 					CreationDate = DateTime.Now,
+					//EndDate = project.EndDate,
+					Type = project.Type,
 				};
 
 				_context.Projects.Add(proj);

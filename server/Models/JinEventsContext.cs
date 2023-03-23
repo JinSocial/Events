@@ -26,7 +26,7 @@ public partial class JinEventsContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("");
+        => optionsBuilder.UseNpgsql("Server=localhost;Database=postgres;Port=5432;User Id=postgres;Password=1;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -84,9 +84,13 @@ public partial class JinEventsContext : DbContext
             entity.ToTable("projects");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Type).HasColumnName("type");
             entity.Property(e => e.CreationDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("creation_date");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("end_date");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.ImgPath)
                 .HasMaxLength(64)

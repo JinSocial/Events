@@ -12,8 +12,10 @@ CREATE TABLE projects (
   title VARCHAR(64) NOT NULL,
   description TEXT,
   point POINT NOT NULL,
+  type INT NOT NULL,
   img_path VARCHAR(64),
-  creation_date TIMESTAMP NOT NULL
+  creation_date TIMESTAMP NOT NULL,
+  end_date TIMESTAMP NOT NULL,
 );
 
 CREATE TABLE project_members (

@@ -4,11 +4,12 @@ import { useContext, useEffect, useRef } from "react";
 import MapStore from "store/MapStore";
 import ModalStore from "store/ModalStore";
 import ProjectStore from "store/ProjectStore";
+import { placemarkTypes } from "utils/utils";
 
 const Maps = () => {
     const userStore = useContext(Context);
     const mapRef = useRef(null);
-    const ymaps = useYMaps(['Map', 'control.Button', 'ObjectManager']);
+    const ymaps = useYMaps(['Map', 'control.Button', 'control.ListBox', 'control.ListBoxItem', 'ObjectManager']);
 
     useEffect(() => {
         if (!ymaps || !mapRef.current) {
@@ -43,7 +44,7 @@ const Maps = () => {
             }
         });
 
-        let button = new ymaps.control.Button({
+        let modeButton = new ymaps.control.Button({
             data: {
                 content: "Режим создания",
             },
@@ -51,31 +52,59 @@ const Maps = () => {
                 maxWidth: [170, 190, 220]
             }
         });
-        button.events.add('click', (e) => {
+        modeButton.events.add('click', (e) => {
             if (!userStore.isAuth) {
                 alert("Нужно авторизироваться");
                 return;
             }
-            if (button.isSelected() === true) {
+            if (modeButton.isSelected() === true) {
                 mode = 'search';
             } else {
-                mode ='edit';
+                mode = 'edit';
             }
         });
 
-        map.controls.add(button, {
+        map.controls.add(modeButton, {
             position: {
                 right: 10,
                 top: 10
             }
         });
 
-        let objectManager = new ymaps.ObjectManager({
-            modules: [
-            ]
+        let placemarkTypeslistBoxItems = [];
+
+        for (let i = 0; i < placemarkTypes.length; i += 1) {
+            let placemarkTypeslistBoxItem = new ymaps.control.ListBoxItem({
+                data: {
+                    content: placemarkTypes[i],
+                    type: i + 1
+                },
+                state: {
+                    selected: true
+                }
+            });
+            placemarkTypeslistBoxItem.events.add('click', function (e) {
+                ProjectStore.setVisible(!e.originalEvent.target.state._data.selected, e.originalEvent.target.data._data.type);
+            });
+            placemarkTypeslistBoxItems.push(placemarkTypeslistBoxItem);
+        }
+
+        let placemarkTypeslistBox = new ymaps.control.ListBox({
+            items: placemarkTypeslistBoxItems,
+            data: {
+                content: "Проекты",
+            }
         });
-        objectManager.objects.events.add('balloonopen', function (e) {
-            console.log(1);
+
+        map.controls.add(placemarkTypeslistBox, {
+            position: {
+                right: 150,
+                top: 10
+            }
+        });
+
+        let objectManager = new ymaps.ObjectManager({
+            modules: []
         });
         map.geoObjects.add(objectManager);
 
