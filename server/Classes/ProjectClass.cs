@@ -16,10 +16,12 @@ namespace JinEventsWebAPI.Classes
 				Project proj = new() 
 				{
 					Title = project.Title,
+					Category = project.Category,
 					Description = project.Description,
 					Point = project.Point,
 					ImgPath	= project.ImgPath,
-					CreationDate = DateTime.Now,
+					Created = DateTime.Now,
+					Expires = project.Expires,
 				};
 
 				_context.Projects.Add(proj);

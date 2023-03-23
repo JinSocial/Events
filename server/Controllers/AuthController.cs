@@ -31,8 +31,10 @@ namespace JinEventsWebAPI.Controllers
 			User user = new()
 			{
 				Email = userDto.Email,
-				Login = userDto.UserName.ToLower(),
+				Login = userDto.UserName,
 				Password = passwordHash,
+				Created = DateTime.Now,
+				Rating = decimal.Zero,
 			};
 
 			try
@@ -80,7 +82,7 @@ namespace JinEventsWebAPI.Controllers
 			{
 				if(user.Login != null)
 				{
-					List<Claim> claims = new List<Claim>()
+					List<Claim> claims = new()
 					{
 						new Claim(ClaimTypes.Name, user.Login)
 					};

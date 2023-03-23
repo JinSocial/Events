@@ -10,13 +10,19 @@ public partial class Project
 
     public string Title { get; set; } = null!;
 
+    public string? Category { get; set; }
+
     public string? Description { get; set; }
 
     public NpgsqlPoint Point { get; set; }
 
     public string? ImgPath { get; set; }
 
-    public DateTime CreationDate { get; set; }
+    public DateTime Created { get; set; }
+
+    public DateTime Expires { get; set; }
+
+    public virtual ProjectCategory? CategoryNavigation { get; set; }
 
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
 
