@@ -1,8 +1,9 @@
 const { makeAutoObservable } = require("mobx");
 
+const zoomRange = 0.005;
+
 class MapStore {
     map = null;
-    objectManager = null;
     placemarks = [];
 
     constructor() {
@@ -11,10 +12,6 @@ class MapStore {
 
     setMap(map) {
         this.map = map;
-    }
-
-    setObjectManager(objectManager) {
-        this.objectManager = objectManager;
     }
 
     add(placemarks) {
@@ -45,6 +42,11 @@ class MapStore {
 
     setPlacemarks(placemarks) {
         this.placemarks = placemarks;
+    }
+
+    zoom(point) {
+        this.map.setBounds([[point.x - zoomRange, point.y - zoomRange], [point.x + zoomRange, point.y + zoomRange]]);
+        //this.map.center = [10, 10];
     }
 }
 

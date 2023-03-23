@@ -19,3 +19,7 @@ export function dateToString(date) {
 export const placemarkTypes = ["Бытовые", "Научные", "Городские", "Социальные"];
 export const placemarkTypesSingle = ["Бытовой", "Научный", "Городской", "Социальный"];
 export const placemarkTypesPresets = ["islands#blueHomeCircleIcon", "islands#blueScienceCircleIcon", "islands#blueAutoCircleIcon", "islands#blueFamilyCircleIcon"];
+export const rolesMap = new Map([
+    ["Owner", "Владелец",],
+    ["Member", "Участник"]
+]);

@@ -1,8 +1,10 @@
 import { makeAutoObservable } from "mobx";
 import AuthService from "services/AuthService";
+import UserService from "services/UserService";
 
 class UserStore {
     user = {};
+    users = [];
     isAuth = false;
     isLoading = false;
 
@@ -18,13 +20,20 @@ class UserStore {
         this.user = user;
     }
 
+    setUsers(users) {
+        this.users = users;
+        for(let i = 0; i < this.users.length; i += 1) {
+            this.users[i].rating = 4 + Math.random();
+        }
+    }
+
     async login(username, password, callback) {
         try {
             const response = await AuthService.login(username, password);
             if (response.data) {
                 localStorage.setItem('token', response.data);
                 this.setAuth(true);
-                this.setUser({username: username});
+                this.setUser({login: username});
             }
             callback(null);
         } catch (e) {
@@ -50,11 +59,20 @@ class UserStore {
     async checkAuth() {
         try {
             this.setAuth(true);
-            this.setUser({username: "Test"});
+            this.setUser({login: "Test"});
+        } catch (e) {
+            console.error(e.message);
+        }
+    }
+
+    async fetchUsers() {
+        try {
+            const response = await UserService.getAll();
+            this.setUsers(response.data);
         } catch (e) {
             console.error(e.message);
         }
     }
 }
 
-export default UserStore;
+export default new UserStore();

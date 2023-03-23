@@ -4,12 +4,12 @@ import { useContext, useEffect, useRef } from "react";
 import MapStore from "store/MapStore";
 import ModalStore from "store/ModalStore";
 import ProjectStore from "store/ProjectStore";
+import UserStore from "store/UserStore";
 import { placemarkTypes } from "utils/utils";
 
 const Maps = () => {
-    const userStore = useContext(Context);
     const mapRef = useRef(null);
-    const ymaps = useYMaps(['Map', 'control.Button', 'control.ListBox', 'control.ListBoxItem', 'ObjectManager']);
+    const ymaps = useYMaps(['Map', 'control.Button', 'control.ListBox', 'control.ListBoxItem', 'ObjectManager', 'control.GeolocationControl']);
 
     useEffect(() => {
         if (!ymaps || !mapRef.current) {
@@ -18,7 +18,7 @@ const Maps = () => {
 
         let map = new ymaps.Map(mapRef.current, {
             center: [55.76, 37.64],
-            zoom: 10,
+            zoom: 10
         });
 
         let mode = 'search';
@@ -53,7 +53,7 @@ const Maps = () => {
             }
         });
         modeButton.events.add('click', (e) => {
-            if (!userStore.isAuth) {
+            if (!UserStore.isAuth) {
                 alert("Нужно авторизироваться");
                 return;
             }
@@ -103,16 +103,13 @@ const Maps = () => {
             }
         });
 
-        let objectManager = new ymaps.ObjectManager({
-            modules: []
-        });
-        map.geoObjects.add(objectManager);
+        let geolocationControl = new ymaps.control.GeolocationControl({});
+        map.controls.add(geolocationControl);
 
         MapStore.setMap(map);
-        MapStore.setObjectManager(objectManager);
     }, [ymaps]);
 
-    return <div ref={mapRef} style={{ width: '320px', height: '240px' }} className="w-100 h-100" />;
+    return <div ref={mapRef} className="w-100 h-100" />;
 }
 
 export default Maps;

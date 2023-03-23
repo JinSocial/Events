@@ -8,4 +8,8 @@ export default class ProjectService {
     static async getAll() {
         return $api.get('/projects');
     }
+
+    static async get(id) {
+        return $api.get(`/projects/${id}`);
+    }
 }

@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import UserStore from "store/UserStore";
 
 class ModalStore {
     isShowLogin = false;
@@ -7,6 +8,7 @@ class ModalStore {
     isProjectOffcanvas = false;
     isCreateProjectOffcanvas = false;
     success = false;
+    viewUser = {};
 
     constructor() {
         makeAutoObservable(this);
@@ -22,7 +24,8 @@ class ModalStore {
         this.isShowRegistration = show;
     }
 
-    showProfile(show) {
+    showProfile(show, user) {
+        this.viewUser = user;
         this.isShowProfile = show;
     }
 
