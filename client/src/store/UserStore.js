@@ -43,8 +43,8 @@ class UserStore {
 
     async logout() {
         localStorage.removeItem('token');
-        this.isAuth = false;
-        this.user = {};
+        this.setAuth(false);
+        this.setUser({});
     }
 
     async checkAuth() {

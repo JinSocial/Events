@@ -1,13 +1,14 @@
 import { useYMaps } from "@pbe/react-yandex-maps";
 import { Context } from "index";
 import { useContext, useEffect, useRef } from "react";
+import MapStore from "store/MapStore";
 import ModalStore from "store/ModalStore";
 import ProjectStore from "store/ProjectStore";
 
 const Maps = () => {
     const userStore = useContext(Context);
     const mapRef = useRef(null);
-    const ymaps = useYMaps(['Map', 'control.Button']);
+    const ymaps = useYMaps(['Map', 'control.Button', 'ObjectManager']);
 
     useEffect(() => {
         if (!ymaps || !mapRef.current) {
@@ -68,6 +69,18 @@ const Maps = () => {
                 top: 10
             }
         });
+
+        let objectManager = new ymaps.ObjectManager({
+            modules: [
+            ]
+        });
+        objectManager.objects.events.add('balloonopen', function (e) {
+            console.log(1);
+        });
+        map.geoObjects.add(objectManager);
+
+        MapStore.setMap(map);
+        MapStore.setObjectManager(objectManager);
     }, [ymaps]);
 
     return <div ref={mapRef} style={{ width: '320px', height: '240px' }} className="w-100 h-100" />;
