@@ -10,7 +10,7 @@ const Placemarks = () => {
     let placemarks = [];
     for (let i = 0; i < ProjectStore.projects.length; i += 1) {
         let project = ProjectStore.projects[i];
-        if (!ProjectStore.projectsVisibleOptions[project.id % 4]) {
+        if (!ProjectStore.projectsVisibleOptions[project.type-1]) {
             continue;
         }
         let placemark = new ymaps.Placemark(
