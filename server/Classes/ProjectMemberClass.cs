@@ -1,27 +1,46 @@
-﻿using JinEventsWebAPI.Interfaces;
+﻿using JinEventsWebAPI.Controllers.Services.UserService;
+using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.Security.Claims;
 
 namespace JinEventsWebAPI.Classes
 {
 	public class ProjectMemberClass : IProjectMember
 	{
 		private readonly JinEventsContext _context;
-		public ProjectMemberClass(JinEventsContext context) => _context = context;
+		private readonly IUserService _userService;
 
-		public bool AddProjectMember(ProjectMember projectMember)
+		public ProjectMemberClass(JinEventsContext context, IUserService userService)
+		{
+			_context = context;
+			_userService = userService;
+		}
+
+		public bool AddProjectMember(string projectTitle)
 		{
 			try
 			{
-				ProjectMember pm = new()
+				int uId = Convert.ToInt32(_userService.GetUserId());
+				
+				var QueryProject = _context.Projects.Where( p => p.Title == projectTitle).FirstOrDefault();
+				if (QueryProject != null)
 				{
-					ProjectId = projectMember.ProjectId,
-					UserId = projectMember.UserId,
-					Role = "Member",
-				};
-				_context.ProjectMembers.Add(pm);
-				_context.SaveChanges();
+					ProjectMember pm = new()
+					{
+						ProjectId = QueryProject.Id,
+						UserId = uId,
+						Role = "Member",
+					};
+					_context.ProjectMembers.Add(pm);
+					_context.SaveChanges();
 
-				return true;
+					return true;
+				}
+				else
+				{
+					return false;
+				}
 			}
 			catch (Exception)
 			{

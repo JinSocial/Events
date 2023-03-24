@@ -1,4 +1,5 @@
-﻿using JinEventsWebAPI.Interfaces;
+﻿using JinEventsWebAPI.Controllers.Services.UserService;
+using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -12,9 +13,11 @@ namespace JinEventsWebAPI.Controllers
 	public class ProjectMemberController : ControllerBase
 	{
 		private readonly IProjectMember _iProjectMember;
-		public ProjectMemberController(IProjectMember iProjectMember)
+		private readonly IUserService _userService;
+		public ProjectMemberController(IProjectMember iProjectMember, IUserService userService)
 		{
 			_iProjectMember = iProjectMember;
+			_userService = userService;
 		}
 
 		[HttpGet("project-members")]
@@ -22,14 +25,24 @@ namespace JinEventsWebAPI.Controllers
 
 		[Authorize]
 		[HttpPost("project-members/join")]
-		public async Task<ActionResult<ProjectMember>> Post(ProjectMember projectMember)
+		public async Task<ActionResult<ProjectMember>> Post(string projectTitle)
 		{
-			if (!_iProjectMember.AddProjectMember(projectMember))
+			ActionResult<string> login = _userService.GetUserLogin();
+			if (login != null) 
 			{
-				await Request.ReadFormAsync();
+				if (!_iProjectMember.AddProjectMember(projectTitle))
+				{
+					await Request.ReadFormAsync();
+					return BadRequest();
+				}
+				return Ok(
+						$"User {login} added to project {projectTitle} as member"
+					);
+			}
+			else
+			{
 				return BadRequest();
 			}
-			return Ok(projectMember);
 		}
 	}
 }
