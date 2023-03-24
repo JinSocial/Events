@@ -2314,11 +2314,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\JinEventsWebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\shelb\\Desktop\\main\\JinEvents\\server\\JinEventsWebAPI.csproj",
       "projectName": "JinEventsWebAPI",
-      "projectPath": "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\JinEventsWebAPI.csproj",
+      "projectPath": "C:\\Users\\shelb\\Desktop\\main\\JinEvents\\server\\JinEventsWebAPI.csproj",
       "packagesPath": "C:\\Users\\shelb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\obj\\",
+      "outputPath": "C:\\Users\\shelb\\Desktop\\main\\JinEvents\\server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
