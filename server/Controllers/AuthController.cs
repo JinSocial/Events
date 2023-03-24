@@ -1,4 +1,5 @@
 ﻿using BCrypt.Net;
+using JinEventsWebAPI.Controllers.Services.UserService;
 using JinEventsWebAPI.Models;
 using JinEventsWebAPI.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,13 @@ namespace JinEventsWebAPI.Controllers
 	{
 		private readonly JinEventsContext _context;
 		private readonly IConfiguration _configuration;
+		private readonly IUserService userService;
 
-		public AuthController(JinEventsContext context, IConfiguration configuration)
+		public AuthController(JinEventsContext context, IConfiguration configuration, IUserService userService)
 		{
 			_context = context;
 			_configuration = configuration;
+			this.userService = userService;
 		}
 
 		[HttpPost("register")]
@@ -83,30 +86,32 @@ namespace JinEventsWebAPI.Controllers
 		[HttpGet("authenticate")]
 		public ActionResult<string> GetData()
 		{
-			try
-			{
-				var uId = User?.FindFirstValue(ClaimTypes.Sid);
-				var uRole = User?.FindFirstValue(ClaimTypes.Role);
-				var uLogin = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-				var uEmail = User?.FindFirstValue(ClaimTypes.Email);
-				var uData = User?.FindFirstValue(ClaimTypes.UserData);
+			var result = userService.GetUserLogin();
+			return Ok(result);
+			//try
+			//{
+			//	var uId = User?.FindFirstValue(ClaimTypes.Sid);
+			//	var uRole = User?.FindFirstValue(ClaimTypes.Role);
+			//	var uLogin = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+			//	var uEmail = User?.FindFirstValue(ClaimTypes.Email);
+			//	var uData = User?.FindFirstValue(ClaimTypes.UserData);
 
-				return Ok(
-						new
-						{
-							uId, 
-							uRole, 
-							uLogin, 
-							uEmail,
-							uData,
-						}
-					);
-			}
-			catch (Exception)
-			{
-				return BadRequest();
-				throw;
-			}
+			//	return Ok(
+			//			new
+			//			{
+			//				uId, 
+			//				uRole, 
+			//				uLogin, 
+			//				uEmail,
+			//				uData,
+			//			}
+			//		);
+			//}
+			//catch (Exception)
+			//{
+			//	return BadRequest();
+			//	throw;
+			//}
 		}
 
 		private string GenerateToken(User user)

@@ -24,7 +24,7 @@ namespace JinEventsWebAPI.Controllers
 		public async Task<ActionResult<IEnumerable<ProjectMember>>> Get() => await Task.FromResult(_iProjectMember.GetProjectMembers());
 
 		[Authorize]
-		[HttpPost("project-members/join")]
+		[HttpPost("{projectTitle}/join")]
 		public async Task<ActionResult<ProjectMember>> Post(string projectTitle)
 		{
 			ActionResult<string> login = _userService.GetUserLogin();

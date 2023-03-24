@@ -25,9 +25,9 @@ namespace JinEventsWebAPI.Controllers
 
 		[Authorize]
 		[HttpPost("add-project")]
-		public async Task<ActionResult<Project>> Post(Project project, string login)
+		public async Task<ActionResult<Project>> Post(Project project)
 		{
-			if (!_iproject.CreateProject(project, login))
+			if (!_iproject.CreateProject(project))
 			{
 				await Request.ReadFormAsync();
 				return BadRequest();

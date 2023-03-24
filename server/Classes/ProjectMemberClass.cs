@@ -1,8 +1,6 @@
 ﻿using JinEventsWebAPI.Controllers.Services.UserService;
 using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Security.Claims;
 
 namespace JinEventsWebAPI.Classes
 {

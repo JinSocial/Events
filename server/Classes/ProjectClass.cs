@@ -1,4 +1,5 @@
-﻿using JinEventsWebAPI.Interfaces;
+﻿using JinEventsWebAPI.Controllers.Services.UserService;
+using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
 
 namespace JinEventsWebAPI.Classes
@@ -6,12 +7,19 @@ namespace JinEventsWebAPI.Classes
 	public class ProjectClass : IProject
 	{
 		private readonly JinEventsContext _context;
-		public ProjectClass(JinEventsContext context) => _context = context;
+		private readonly IUserService _userService;
 
-		public bool CreateProject(Project project, string login)
+		public ProjectClass(JinEventsContext context, IUserService userService)
+		{
+			_context = context;
+			_userService = userService;
+		}
+
+		public bool CreateProject(Project project)
 		{
 			try
 			{
+
 				DateTime expires = new DateTime()
 					.AddYears(project.Expires.Year)
 					.AddMonths(project.Expires.Month)
@@ -35,11 +43,15 @@ namespace JinEventsWebAPI.Classes
 				_context.Projects.Add(proj);
 				_context.SaveChanges();
 
-				AddOwner(login, project.Title);
+				string? login = _userService.GetUserLogin().ToString();
+				
+				if (login != null)
+				{
+					AddOwner(login, project.Title);
+					return true;
+				}
 
-				return true;
-
-				/// добавлять овнера
+				return false;
 			}
 			catch (Exception ex)
 			{

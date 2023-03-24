@@ -1,21 +1,29 @@
-﻿using JinEventsWebAPI.Interfaces;
+﻿using JinEventsWebAPI.Controllers.Services.UserService;
+using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
 
 namespace JinEventsWebAPI.Classes
 {
 	public class CommentClass : IComment
 	{
-		public readonly JinEventsContext _context;
+		private readonly JinEventsContext _context;
+		private readonly IUserService _userService;
 
-		public CommentClass(JinEventsContext context) => _context = context;
+		public CommentClass(JinEventsContext context, IUserService userService)
+		{
+			_context = context;
+			_userService = userService;
+		}
+
 
 		public bool CreateComment(Comment comment)
 		{
 			try
 			{
+				int uId = Convert.ToInt32(_userService.GetUserId());
 				Comment com = new()
 				{
-					UserId = comment.UserId,
+					UserId = uId,
 					ProjectId = comment.ProjectId,
 					Message = comment.Message,
 					Date = comment.Date,

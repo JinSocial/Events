@@ -6,6 +6,6 @@ namespace JinEventsWebAPI.Interfaces
 	{
 		public List<Project> GetProjects();
 		public Project GetProjectById(int id);
-		public bool CreateProject(Project project, string login);
+		public bool CreateProject(Project project);
 	}
 }

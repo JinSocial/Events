@@ -9,7 +9,7 @@ namespace JinEventsWebAPI.Controllers.Services.UserService
 
 		public UserService(IHttpContextAccessor httpContextAccessor) => _httpContextAccessor = httpContextAccessor;
 
-		public ActionResult<string> GetUserData()
+		public string GetUserData()
 		{
 			string?
 				result,
@@ -37,7 +37,7 @@ namespace JinEventsWebAPI.Controllers.Services.UserService
 			return "Service is not working";
 		}
 
-		public ActionResult<string> GetUserId()
+		public string GetUserId()
 		{
 			string? result;
 
@@ -53,7 +53,7 @@ namespace JinEventsWebAPI.Controllers.Services.UserService
 			return "Service is not working";
 		}
 
-		public ActionResult<string> GetUserLogin()
+		public string GetUserLogin()
 		{
 			string? result;
 
