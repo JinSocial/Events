@@ -21,12 +21,14 @@ public partial class JinEventsContext : DbContext
 
     public virtual DbSet<Project> Projects { get; set; }
 
+    public virtual DbSet<ProjectCategory> ProjectCategories { get; set; }
+
     public virtual DbSet<ProjectMember> ProjectMembers { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Server=localhost;Database=postgres;Port=5432;User Id=postgres;Password=1;");
+        => optionsBuilder.UseNpgsql("");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,6 +63,8 @@ public partial class JinEventsContext : DbContext
 
             entity.ToTable("events");
 
+            entity.HasIndex(e => e.Title, "events_title_key").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Date)
                 .HasColumnType("timestamp without time zone")
@@ -83,15 +87,17 @@ public partial class JinEventsContext : DbContext
 
             entity.ToTable("projects");
 
+            entity.HasIndex(e => e.Title, "projects_title_key").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Type).HasColumnName("type");
-            entity.Property(e => e.CreationDate)
+            entity.Property(e => e.Category).HasColumnName("category");
+            entity.Property(e => e.Created)
                 .HasColumnType("timestamp without time zone")
-                .HasColumnName("creation_date");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("timestamp without time zone")
-                .HasColumnName("end_date");
+                .HasColumnName("created");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Expires)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("expires");
             entity.Property(e => e.ImgPath)
                 .HasMaxLength(64)
                 .HasColumnName("img_path");
@@ -99,6 +105,20 @@ public partial class JinEventsContext : DbContext
             entity.Property(e => e.Title)
                 .HasMaxLength(64)
                 .HasColumnName("title");
+
+            entity.HasOne(d => d.CategoryNavigation).WithMany(p => p.Projects)
+                .HasForeignKey(d => d.Category)
+                .HasConstraintName("projects_category_fkey");
+        });
+
+        modelBuilder.Entity<ProjectCategory>(entity =>
+        {
+            entity.HasKey(e => e.Title).HasName("project_categories_pkey");
+
+            entity.ToTable("project_categories");
+
+            entity.Property(e => e.Title).HasColumnName("title");
+            entity.Property(e => e.Description).HasColumnName("description");
         });
 
         modelBuilder.Entity<ProjectMember>(entity =>
@@ -130,8 +150,15 @@ public partial class JinEventsContext : DbContext
 
             entity.ToTable("users");
 
+            entity.HasIndex(e => e.Email, "users_email_key").IsUnique();
+
+            entity.HasIndex(e => e.Login, "users_login_key").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.About).HasColumnName("about");
+            entity.Property(e => e.Created)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("created");
             entity.Property(e => e.Email)
                 .HasMaxLength(64)
                 .HasColumnName("email");
@@ -144,6 +171,9 @@ public partial class JinEventsContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(64)
                 .HasColumnName("password");
+            entity.Property(e => e.Rating)
+                .HasPrecision(4, 2)
+                .HasColumnName("rating");
         });
 
         OnModelCreatingPartial(modelBuilder);

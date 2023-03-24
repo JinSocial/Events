@@ -1,5 +1,8 @@
-﻿using JinEventsWebAPI.Models;
+﻿using BCrypt.Net;
+using JinEventsWebAPI.Controllers.Services.UserService;
+using JinEventsWebAPI.Models;
 using JinEventsWebAPI.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -16,23 +19,28 @@ namespace JinEventsWebAPI.Controllers
 	{
 		private readonly JinEventsContext _context;
 		private readonly IConfiguration _configuration;
+		private readonly IUserService userService;
 
-		public AuthController(JinEventsContext context, IConfiguration configuration)
+		public AuthController(JinEventsContext context, IConfiguration configuration, IUserService userService)
 		{
 			_context = context;
 			_configuration = configuration;
+			this.userService = userService;
 		}
 
 		[HttpPost("register")]
 		public ActionResult<User> Register(UserRegiserDto userDto)
 		{
-			string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+
+			string HashedPass = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
 			User user = new()
 			{
 				Email = userDto.Email,
-				Login = userDto.UserName.ToLower(),
-				Password = passwordHash,
+				Login = userDto.Username,
+				Password = HashedPass,
+				Created = DateTime.Now.ToUniversalTime(),
+				Rating = decimal.Zero,
 			};
 
 			try
@@ -52,7 +60,7 @@ namespace JinEventsWebAPI.Controllers
 		{
 			try
 			{
-				var user = _context.Users.FirstOrDefault(u => u.Login == userDto.UserName);
+				var user = _context.Users.FirstOrDefault(u => u.Login == userDto.Username);
 
 				if (user != null)
 				{
@@ -74,24 +82,64 @@ namespace JinEventsWebAPI.Controllers
 			}
 		}
 
+		[Authorize]
+		[HttpGet("authenticate")]
+		public ActionResult<string> GetData()
+		{
+			var result = userService.GetUserLogin();
+			return Ok(result);
+			//try
+			//{
+			//	var uId = User?.FindFirstValue(ClaimTypes.Sid);
+			//	var uRole = User?.FindFirstValue(ClaimTypes.Role);
+			//	var uLogin = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+			//	var uEmail = User?.FindFirstValue(ClaimTypes.Email);
+			//	var uData = User?.FindFirstValue(ClaimTypes.UserData);
+
+			//	return Ok(
+			//			new
+			//			{
+			//				uId, 
+			//				uRole, 
+			//				uLogin, 
+			//				uEmail,
+			//				uData,
+			//			}
+			//		);
+			//}
+			//catch (Exception)
+			//{
+			//	return BadRequest();
+			//	throw;
+			//}
+		}
+
 		private string GenerateToken(User user)
 		{
 			try
 			{
 				if(user.Login != null)
 				{
-					List<Claim> claims = new List<Claim>()
+					List<Claim> claims = new()
 					{
-						new Claim(ClaimTypes.Name, user.Login)
+						new Claim(ClaimTypes.Sid, user.Id.ToString()),
+						new Claim(ClaimTypes.Role, "User"),
+						new Claim(ClaimTypes.NameIdentifier, user.Login),
+						new Claim(ClaimTypes.Email, user.Email),
+						new Claim(ClaimTypes.UserData, 
+							"Rate: " + user.Rating.ToString() + 
+							"\nProject members: " + user.ProjectMembers.Count.ToString() +
+							"\nComments: " + user.Comments.Count.ToString()
+							),
 					};
 				
 					var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("SecurityKeys:Token").Value!));
 
-					var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+					var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
 					var token = new JwtSecurityToken(
 							claims: claims,
-							expires: DateTime.Now.AddDays(1),
+							expires: DateTime.Now.AddHours(3),
 							signingCredentials: creds
 						);
 				

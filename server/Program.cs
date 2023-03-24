@@ -1,4 +1,5 @@
 using JinEventsWebAPI.Classes;
+using JinEventsWebAPI.Controllers.Services.UserService;
 using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +19,9 @@ builder.Services.AddTransient<IEvent, EventClass>();
 builder.Services.AddTransient<IProject, ProjectClass>();
 builder.Services.AddTransient<IProjectMember, ProjectMemberClass>();
 builder.Services.AddTransient<IUser, UserClass>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication
 	(JwtBearerDefaults.AuthenticationScheme)
@@ -67,6 +71,8 @@ builder.Services.AddCors(
     });
 
 builder.Services.AddMvc();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var app = builder.Build();
 

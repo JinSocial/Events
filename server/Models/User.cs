@@ -8,11 +8,15 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
-    public string? Login { get; set; }
+    public string Login { get; set; } = null!;
 
     public string? ImgPath { get; set; }
 
     public string? About { get; set; }
+
+    public DateTime Created { get; set; }
+
+    public decimal Rating { get; set; }
 
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
 

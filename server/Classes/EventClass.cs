@@ -1,6 +1,5 @@
 ﻿using JinEventsWebAPI.Interfaces;
 using JinEventsWebAPI.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace JinEventsWebAPI.Classes
 {

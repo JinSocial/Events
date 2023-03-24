@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace JinEventsWebAPI.Models;
+﻿namespace JinEventsWebAPI.Models;
 
 public partial class ProjectMember
 {
