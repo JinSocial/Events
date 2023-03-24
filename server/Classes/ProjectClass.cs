@@ -8,9 +8,7 @@ namespace JinEventsWebAPI.Classes
 		private readonly JinEventsContext _context;
 		public ProjectClass(JinEventsContext context) => _context = context;
 
-		private string? _projectName;
-
-		public bool CreateProject(Project project)
+		public bool CreateProject(Project project, string login)
 		{
 			try
 			{
@@ -36,6 +34,9 @@ namespace JinEventsWebAPI.Classes
 
 				_context.Projects.Add(proj);
 				_context.SaveChanges();
+
+				AddOwner(login, project.Title);
+
 				return true;
 
 				/// добавлять овнера
@@ -47,18 +48,19 @@ namespace JinEventsWebAPI.Classes
 			}
 		}
 
-		private void AddOwner(int userId)
+		private void AddOwner(string login, string projectName)
 		{
 			try
 			{
-				var QueryProject = _context.Projects.Where( p=> p.Title == _projectName).FirstOrDefault();
+				var QueryProject = _context.Projects.Where( p=> p.Title == projectName).FirstOrDefault();
+				var QueryUser = _context.Users.Where( u => u.Login == login ).FirstOrDefault();
 
-				if(QueryProject != null)
+				if(QueryProject != null && QueryUser != null)
 				{
 					ProjectMember projectOwner = new()
 					{
 						ProjectId = QueryProject.Id,
-						UserId = userId,
+						UserId = QueryUser.Id,
 						Role = "Owner"
 					};
 
@@ -72,7 +74,7 @@ namespace JinEventsWebAPI.Classes
 			}
 			catch (Exception)
 			{
-
+				throw new Exception("can`t access services");
 				throw;
 			}
 		}
