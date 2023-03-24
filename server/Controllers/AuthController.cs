@@ -1,6 +1,7 @@
 ﻿using BCrypt.Net;
 using JinEventsWebAPI.Models;
 using JinEventsWebAPI.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -27,14 +28,13 @@ namespace JinEventsWebAPI.Controllers
 		[HttpPost("register")]
 		public ActionResult<User> Register(UserRegiserDto userDto)
 		{
-			string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
-			HashType ht = HashType.SHA512;
-			string HashedPass = BCrypt.Net.BCrypt.HashPassword(userDto.Password, salt, true, ht);
+
+			string HashedPass = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
 			User user = new()
 			{
 				Email = userDto.Email,
-				Login = userDto.UserName,
+				Login = userDto.Username,
 				Password = HashedPass,
 				Created = DateTime.Now.ToUniversalTime(),
 				Rating = decimal.Zero,
@@ -57,7 +57,7 @@ namespace JinEventsWebAPI.Controllers
 		{
 			try
 			{
-				var user = _context.Users.FirstOrDefault(u => u.Login == userDto.UserName);
+				var user = _context.Users.FirstOrDefault(u => u.Login == userDto.Username);
 
 				if (user != null)
 				{
@@ -79,6 +79,36 @@ namespace JinEventsWebAPI.Controllers
 			}
 		}
 
+		[Authorize]
+		[HttpGet("authenticate")]
+		public ActionResult<string> GetData()
+		{
+			try
+			{
+				var uId = User?.FindFirstValue(ClaimTypes.Sid);
+				var uRole = User?.FindFirstValue(ClaimTypes.Role);
+				var uLogin = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+				var uEmail = User?.FindFirstValue(ClaimTypes.Email);
+				var uData = User?.FindFirstValue(ClaimTypes.UserData);
+
+				return Ok(
+						new
+						{
+							uId, 
+							uRole, 
+							uLogin, 
+							uEmail,
+							uData,
+						}
+					);
+			}
+			catch (Exception)
+			{
+				return BadRequest();
+				throw;
+			}
+		}
+
 		private string GenerateToken(User user)
 		{
 			try
@@ -88,12 +118,14 @@ namespace JinEventsWebAPI.Controllers
 					List<Claim> claims = new()
 					{
 						new Claim(ClaimTypes.Sid, user.Id.ToString()),
+						new Claim(ClaimTypes.Role, "User"),
+						new Claim(ClaimTypes.NameIdentifier, user.Login),
 						new Claim(ClaimTypes.Email, user.Email),
-						new Claim(ClaimTypes.UserData, user.Login),
-						new Claim(ClaimTypes.UserData, user.Password),
-						new Claim(ClaimTypes.UserData, user.ProjectMembers.Count.ToString()),
-						new Claim(ClaimTypes.UserData, user.Comments.Count.ToString()),
-						new Claim(ClaimTypes.UserData, user.Rating.ToString()),
+						new Claim(ClaimTypes.UserData, 
+							"Rate: " + user.Rating.ToString() + 
+							"\nProject members: " + user.ProjectMembers.Count.ToString() +
+							"\nComments: " + user.Comments.Count.ToString()
+							),
 					};
 				
 					var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("SecurityKeys:Token").Value!));
