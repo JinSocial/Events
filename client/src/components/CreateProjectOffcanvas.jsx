@@ -4,9 +4,12 @@ import DateTimePicker from "react-datetime-picker";
 import { useForm } from "react-hook-form";
 import ModalStore from "store/ModalStore";
 import ProjectStore from "store/ProjectStore";
+import { placemarkTypesSingle } from "utils/utils";
 
 const CreateProjectOffcanvas = () => {
-    const [date, setDate] = useState(new Date());
+    const [dropdown, setDropdown] = useState(false);
+    const [projectType, setProjectType] = useState(0);
+    const [endDate, setEndDate] = useState(new Date());
     const [error, setError] = useState(false);
 
     const {
@@ -18,8 +21,8 @@ const CreateProjectOffcanvas = () => {
     });
 
     const submit = (form) => {
-        ProjectStore.create(form.title, form.description, date, (error) => {
-            if(error) {
+        ProjectStore.create(form.title, form.description, JSON.stringify(endDate).replaceAll('"', ''), projectType + 1, (error) => {
+            if (error) {
                 setError(true);
             } else {
                 setError(false);
@@ -51,16 +54,31 @@ const CreateProjectOffcanvas = () => {
                         {errors.description?.type === 'required' && <div className="error">Поле обязательное</div>}
                     </div>
                     <div>
+                        <label className="col-form-label">Тип проекта</label>
+                        <div className="dropdown">
+                            <button className="btn dropdown-toggle" type="button" onClick={() => setDropdown(!dropdown)}>
+                                {placemarkTypesSingle[projectType]}
+                            </button>
+                            {dropdown &&
+                                <ul className="dropdown-menu show" aria-labelledby="dropdownMenuButton1">
+                                    {placemarkTypesSingle.map(
+                                        (name, i) => <li key={i}><a className="dropdown-item" role="button" onClick={() => {setProjectType(i); setDropdown(false)}}>{name}</a></li>
+                                    )}
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                    <div>
                         <label className="col-form-label">Дата окончания</label>
-                        <DateTimePicker className="form-control border-0 p-0" name="date" value={date} onChange={setDate}/>
+                        <DateTimePicker className="form-control border-0 p-0" name="date" value={endDate} onChange={setEndDate} />
                     </div>
                     <div className="d-flex flex-column justify-content-center mt-3">
                         <button type="submit" className="btn border border-2 border-primary text-primary mx-auto">Создать</button>
                         {error && <div className="error mx-auto">Не удалось создать проект</div>}
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 

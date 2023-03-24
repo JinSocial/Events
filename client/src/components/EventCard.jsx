@@ -6,7 +6,7 @@ const EventCard = ({ event }) => {
 
     return (
         <div className="card m-2 p-0" style={{ width: '30rem' }}>
-            <a href={`/event/${event.id}`} onClick={() => navigate(`/event/${event.id}`)} className="text-white">
+            <div role="button" onClick={() => navigate(`/project/${event.id}`)} className="text-white">
                 <img className="card-img" src={event.image} alt={event.title} />
                 <div className="card-img-overlay d-flex flex-column">
                     <div className="card-title">
@@ -17,7 +17,7 @@ const EventCard = ({ event }) => {
                         {event.text}
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
     );
 }

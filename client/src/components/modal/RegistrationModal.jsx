@@ -1,13 +1,12 @@
-import { Context } from "index";
 import { observer } from "mobx-react-lite";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import ModalStore from "store/ModalStore";
+import UserStore from "store/UserStore";
 
 const RegistrationModal = () => {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
-    const userStore = useContext(Context);
 
     const {
         register,
@@ -19,7 +18,7 @@ const RegistrationModal = () => {
     });
 
     const submit = (form) => {
-        userStore.register(form.name, form.email, form.password, (error) => {
+        UserStore.register(form.name, form.email, form.password, (error) => {
             if(error) {
                 setError(true);
                 setSuccess(false);

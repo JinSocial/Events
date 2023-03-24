@@ -30,6 +30,10 @@ html, body, #root, #main {
 	color: white;
 }
 
+.text-yellow {
+	color: #ffc107
+}
+
 .error {
 	color: red;
 	font-size: 12px;
@@ -38,4 +42,17 @@ html, body, #root, #main {
 .success {
 	color: green;
 	font-size: 12px;
+}
+
+.myscroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.myscroll::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #B8C0BC;
+}
+
+.myscroll::-webkit-scrollbar-thumb:hover {
+    background-color: #AAAAAA;
 }
