@@ -1,4 +1,5 @@
-﻿using JinEventsWebAPI.Models;
+﻿using BCrypt.Net;
+using JinEventsWebAPI.Models;
 using JinEventsWebAPI.Models.Dto;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -26,14 +27,16 @@ namespace JinEventsWebAPI.Controllers
 		[HttpPost("register")]
 		public ActionResult<User> Register(UserRegiserDto userDto)
 		{
-			string passwordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+			string salt = BCrypt.Net.BCrypt.GenerateSalt(12);
+			HashType ht = HashType.SHA512;
+			string HashedPass = BCrypt.Net.BCrypt.HashPassword(userDto.Password, salt, true, ht);
 
 			User user = new()
 			{
 				Email = userDto.Email,
 				Login = userDto.UserName,
-				Password = passwordHash,
-				Created = DateTime.Now,
+				Password = HashedPass,
+				Created = DateTime.Now.ToUniversalTime(),
 				Rating = decimal.Zero,
 			};
 
@@ -84,16 +87,22 @@ namespace JinEventsWebAPI.Controllers
 				{
 					List<Claim> claims = new()
 					{
-						new Claim(ClaimTypes.Name, user.Login)
+						new Claim(ClaimTypes.Sid, user.Id.ToString()),
+						new Claim(ClaimTypes.Email, user.Email),
+						new Claim(ClaimTypes.UserData, user.Login),
+						new Claim(ClaimTypes.UserData, user.Password),
+						new Claim(ClaimTypes.UserData, user.ProjectMembers.Count.ToString()),
+						new Claim(ClaimTypes.UserData, user.Comments.Count.ToString()),
+						new Claim(ClaimTypes.UserData, user.Rating.ToString()),
 					};
 				
 					var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("SecurityKeys:Token").Value!));
 
-					var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+					var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
 					var token = new JwtSecurityToken(
 							claims: claims,
-							expires: DateTime.Now.AddDays(1),
+							expires: DateTime.Now.AddHours(3),
 							signingCredentials: creds
 						);
 				

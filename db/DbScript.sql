@@ -17,7 +17,7 @@ CREATE TABLE project_categories(
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   title VARCHAR(64) UNIQUE NOT NULL,
-  category TEXT REFERENCES project_categories(title),
+  category TEXT REFERENCES project_categories(title) NOT NULL,
   description TEXT,
   point POINT NOT NULL,
   img_path VARCHAR(64),

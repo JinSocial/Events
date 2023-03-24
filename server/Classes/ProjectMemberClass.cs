@@ -16,7 +16,7 @@ namespace JinEventsWebAPI.Classes
 				{
 					ProjectId = projectMember.ProjectId,
 					UserId = projectMember.UserId,
-					Role = projectMember.Role,
+					Role = "Member",
 				};
 				_context.ProjectMembers.Add(pm);
 				_context.SaveChanges();
@@ -44,7 +44,27 @@ namespace JinEventsWebAPI.Classes
 
 		public bool RemoveProjectMember(string Login)
 		{
-			throw new NotImplementedException();
+			try
+			{
+
+				var user = _context.Users.Where(u => u.Login == Login).FirstOrDefault();
+				if (user != null) 
+				{
+					ProjectMember meberToBeRemoved = (ProjectMember)_context.ProjectMembers.Where(m => m.UserId == user.Id);
+					if (meberToBeRemoved != null) 
+					{
+						_context.ProjectMembers.Remove(meberToBeRemoved);
+						_context.SaveChanges();
+						return true;
+					}
+					return false;
+				}
+				return false;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 	}
 }

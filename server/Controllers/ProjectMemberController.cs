@@ -21,10 +21,10 @@ namespace JinEventsWebAPI.Controllers
 		public async Task<ActionResult<IEnumerable<ProjectMember>>> Get() => await Task.FromResult(_iProjectMember.GetProjectMembers());
 
 		[Authorize]
-		[HttpPost("add-project-member")]
+		[HttpPost("project-members/join")]
 		public async Task<ActionResult<ProjectMember>> Post(ProjectMember projectMember)
 		{
-			if (!_iProjectMember.AddProjectMember(projectMember)) 
+			if (!_iProjectMember.AddProjectMember(projectMember))
 			{
 				await Request.ReadFormAsync();
 				return BadRequest();
