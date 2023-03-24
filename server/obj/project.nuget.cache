@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UEgiFpCbzxwvFYQXmKUoCqRW4uFIQSJbG+APqlcHm/1i6/gLGQWNjj+tSS2JmRorjrxqkYCKXl4bF9xs5zTohg==",
+  "dgSpecHash": "oWUYDqN8fwXtSxWVHjoEmH1/Ne1y2nn8zHAp37bXu8zDYWvtRVIPwuy561U55EKLLEgmsq5QY+7hMs67W43Urw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\shelb\\Desktop\\JinEvents\\server\\JinEventsWebAPI.csproj",
+  "projectFilePath": "C:\\Users\\shelb\\Desktop\\main\\JinEvents\\server\\JinEventsWebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\shelb\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\shelb\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
