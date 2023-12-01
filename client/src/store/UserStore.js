@@ -32,8 +32,7 @@ class UserStore {
             const response = await AuthService.login(username, password);
             if (response.data) {
                 localStorage.setItem('token', response.data);
-                this.setAuth(true);
-                this.setUser({login: username});
+                this.checkAuth();
             }
             callback(null);
         } catch (e) {
@@ -50,7 +49,7 @@ class UserStore {
         }
     }
 
-    async logout() {
+    logout() {
         localStorage.removeItem('token');
         this.setAuth(false);
         this.setUser({});
@@ -58,8 +57,11 @@ class UserStore {
 
     async checkAuth() {
         try {
+            const response = await AuthService.getCurrent();
             this.setAuth(true);
-            this.setUser({login: "Test"});
+            const id = response.data.split('\n')[0];
+            const response2 = await UserService.get(id);
+            this.setUser(response2.data);
         } catch (e) {
             console.error(e.message);
         }

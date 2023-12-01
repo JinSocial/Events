@@ -50,7 +50,7 @@ class ProjectStore {
             this.fetchProjects();
             callback(null);
         } catch (e) {
-            console.log(e);
+            console.error(e.message);
             callback(e);
         }
     }

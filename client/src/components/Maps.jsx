@@ -84,7 +84,7 @@ const Maps = () => {
                 }
             });
             placemarkTypeslistBoxItem.events.add('click', function (e) {
-                ProjectStore.setVisible(!e.originalEvent.target.state._data.selected, e.originalEvent.target.data._data.type);
+                ProjectStore.setVisible(!e.originalEvent.target.state._data.selected, e.originalEvent.target.data._data.category);
             });
             placemarkTypeslistBoxItems.push(placemarkTypeslistBoxItem);
         }

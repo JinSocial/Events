@@ -10,20 +10,22 @@ CREATE TABLE users (
 );
 
 CREATE TABLE project_categories(
-  title TEXT UNIQUE PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
+  title TEXT UNIQUE,
   description TEXT
 );
 
 CREATE TABLE projects (
   id SERIAL PRIMARY KEY,
   title VARCHAR(64) UNIQUE NOT NULL,
-  category TEXT REFERENCES project_categories(title) NOT NULL,
+  category INT REFERENCES project_categories(id) NOT NULL,
   description TEXT,
   point POINT NOT NULL,
   img_path VARCHAR(64),
   created TIMESTAMP NOT NULL,
   expires TIMESTAMP NOT NULL
 );
+
 CREATE TABLE project_members (
   project_id INT REFERENCES projects(id) NOT NULL,
   user_id INT REFERENCES users(id) NOT NULL,

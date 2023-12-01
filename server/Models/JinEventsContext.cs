@@ -28,7 +28,7 @@ public partial class JinEventsContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("");
+        => optionsBuilder.UseNpgsql("Server=localhost;Database=events2;Port=5432;User Id=postgres;Password=1;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -87,7 +87,7 @@ public partial class JinEventsContext : DbContext
 
             entity.ToTable("projects");
 
-            entity.HasIndex(e => e.Title, "projects_title_key").IsUnique();
+            entity.HasIndex(e => e.Title, "projects_title_key");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Category).HasColumnName("category");
@@ -113,10 +113,11 @@ public partial class JinEventsContext : DbContext
 
         modelBuilder.Entity<ProjectCategory>(entity =>
         {
-            entity.HasKey(e => e.Title).HasName("project_categories_pkey");
+            entity.HasKey(e => e.Id).HasName("project_categories_pkey");
 
             entity.ToTable("project_categories");
 
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.Description).HasColumnName("description");
         });

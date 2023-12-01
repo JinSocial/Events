@@ -26,9 +26,9 @@ const ProjectOffcanvas = () => {
                     </div>
                 </div>
                 <div>
-                    <label className="col-form-label"><b>Тип проекта:</b> {placemarkTypesSingle[ProjectStore.project.type - 1]}</label>
+                    <label className="col-form-label"><b>Тип проекта:</b> {placemarkTypesSingle[ProjectStore.project.category - 1]}</label>
                 </div>
-                <div className="col-form-label"><b>Дата начала:</b> {new Date(ProjectStore.project.creationDate.toString()).toLocaleDateString("ru-RU")}</div>
+                <div className="col-form-label"><b>Дата начала:</b> {new Date(ProjectStore.project.created.toString()).toLocaleDateString("ru-RU")}</div>
                 <div className="col-form-label"><b>Дата завершения:</b> {new Date().toLocaleDateString("ru-RU")}</div>
                 <MemberList members={ProjectStore.project.projectMembers} />
                 <CommentList comments={ProjectStore.project.comments} />

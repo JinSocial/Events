@@ -8,7 +8,7 @@ public partial class Project
 
     public string Title { get; set; } = null!;
 
-    public string? Category { get; set; }
+    public int Category { get; set; }
 
     public string? Description { get; set; }
 

@@ -8,8 +8,6 @@ const ProjectList = ({ projectsMember }) => {
         projectsMember = [];
     }
 
-    console.log(projectsMember);
-
     return (
         <div className="mt-2">
             <div className={"btn-group " + (toggle ? "dropup" : "dropdown")}>

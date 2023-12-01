@@ -84,34 +84,10 @@ namespace JinEventsWebAPI.Controllers
 
 		[Authorize]
 		[HttpGet("authenticate")]
-		public ActionResult<string> GetData()
+		public ActionResult<User> GetData()
 		{
-			var result = userService.GetUserLogin();
+			var result = userService.GetUserData();
 			return Ok(result);
-			//try
-			//{
-			//	var uId = User?.FindFirstValue(ClaimTypes.Sid);
-			//	var uRole = User?.FindFirstValue(ClaimTypes.Role);
-			//	var uLogin = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-			//	var uEmail = User?.FindFirstValue(ClaimTypes.Email);
-			//	var uData = User?.FindFirstValue(ClaimTypes.UserData);
-
-			//	return Ok(
-			//			new
-			//			{
-			//				uId, 
-			//				uRole, 
-			//				uLogin, 
-			//				uEmail,
-			//				uData,
-			//			}
-			//		);
-			//}
-			//catch (Exception)
-			//{
-			//	return BadRequest();
-			//	throw;
-			//}
 		}
 
 		private string GenerateToken(User user)

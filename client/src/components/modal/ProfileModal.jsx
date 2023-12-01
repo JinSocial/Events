@@ -25,9 +25,9 @@ const ProfileModal = () => {
         return <></>
     }
 
-    const isCurrentUser = UserStore.id && ModalStore.viewUser?.id === UserStore.id;
+    const isCurrentUser = UserStore.user.id && ModalStore.viewUser?.id === UserStore.user.id;
     const username = ModalStore.viewUser?.login;
-    const projects = [{role: "Owner", project: {id: 1, title: "Проект 1", creationDate: new Date()}}];
+    const projects = [{role: "Owner", project: {id: 1, title: "Проект 1", created: new Date()}}];
     //ModalStore.viewUser?.projectMembers;
     const rating = 4 + Math.random();
     const position = "Бизнес аналитик";
