@@ -1,3 +1,3 @@
-## Запуск
+# React client app
 
-`npm start`
+`npm run start`

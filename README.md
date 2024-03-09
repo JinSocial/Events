@@ -1,9 +1,11 @@
-# JinEvents
+# Events
 
-Web app to create and participate events or community, solve problems and discovering something new
+A web application for creating and participating in events.
+\
+Publish news, solve problems or discover new things.
 
-# Technology stack
+## Technology stack
 
- <img src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg" title="CSharp" alt="CSharp" width="40" height="40"/>&nbsp;
- <img src="https://github.com/devicons/devicon/blob/master/icons/csharp/csharp-original.svg" title="CSharp" alt="CSharp" width="40" height="40"/>&nbsp;
- <img src="https://github.com/devicons/devicon/blob/master/icons/postgresql/postgresql-original.svg" title="PostgreSQL" alt="PostgreSQL" width="40" height="40"/>&nbsp;
+![JS](https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg=x40)
+![CS](https://github.com/devicons/devicon/blob/master/icons/csharp/csharp-original.svg=x40)
+![PG](https://github.com/devicons/devicon/blob/master/icons/postgresql/postgresql-original.svg=x40)

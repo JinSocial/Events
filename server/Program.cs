@@ -23,6 +23,10 @@ builder.Services.AddTransient<IUser, UserClass>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddDbContext<JinEventsContext>(options => 
+	options.UseNpgsql(builder.Configuration.GetSection("ConnectionStrings:PgServer").Value
+	));
+
 builder.Services.AddAuthentication
 	(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(opt =>
